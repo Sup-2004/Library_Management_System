@@ -1,0 +1,148 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== LOGIN PAGE ===== */
+.index-body {
+  background: linear-gradient(135deg, #43cea2, #185a9d);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.login-container {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  width: 360px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.login-container h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.btn-primary {
+  background: #ff4b2b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #ff416c;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard-body {
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  min-height: 100vh;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+}
+
+.nav-btns button {
+  background: white;
+  color: #007bff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.logout {
+  background-color: #ff4d4d !important;
+  color: white !important;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.account-section, .search-section {
+  width: 80%;
+  margin: 25px auto;
+  padding: 20px;
+}
+
+.search-section input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+.search-section button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 20px;
+}
+
+.book-card {
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.4);
+  transition: 0.4s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+.book-card button {
+  background: #28a745;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}

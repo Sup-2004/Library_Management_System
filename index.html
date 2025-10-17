@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="index-body">
+
+  <div class="login-container glass">
+    <h1>📚 Smart Library Portal</h1>
+    <p>Welcome back! Please login to continue</p>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const user = { name, email, password };
+      localStorage.setItem("libraryUser", JSON.stringify(user));
+
+      alert(`Welcome, ${name}! Redirecting to your dashboard...`);
+      window.location.href = "dashboard.html";
+    });
+  </script>
+</body>
+</html>

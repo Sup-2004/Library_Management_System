@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Library Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body class="dashboard-body">
+  <div class="navbar glass">
+    <h2>📖 Smart Library Dashboard</h2>
+    <div class="nav-btns">
+      <button id="accountBtn">👤 My Account</button>
+      <button id="logoutBtn" class="logout">🚪 Logout</button>
+    </div>
+  </div>
+
+  <div class="account-section glass" id="accountSection" style="display:none;">
+    <h3>👤 My Account</h3>
+    <div id="userDetails"></div>
+    <h4>📚 Issued Books</h4>
+    <ul id="issuedBooksList"></ul>
+  </div>
+
+  <div class="search-section glass">
+    <input type="text" id="searchBook" placeholder="🔍 Search book by title..." />
+    <button id="searchBtn">Search</button>
+  </div>
+
+  <div id="searchResult" class="search-result glass"></div>
+
+  <h3 class="section-heading">📘 Available Books</h3>
+  <div class="book-list" id="bookList"></div>
+
+  <script>
+    // ✅ Initialize EmailJS
+    emailjs.init("15MGZeaHx3exA5fn"); // Replace with your EmailJS Public Key
+
+    const user = JSON.parse(localStorage.getItem("libraryUser"));
+    if (!user) window.location.href = "index.html";
+
+    document.getElementById("userDetails").innerHTML = `
+      <p><b>Name:</b> ${user.name}</p>
+      <p><b>Email:</b> ${user.email}</p>
+    `;
+
+    const books = [
+      { title: "Clean Code", author: "Robert C. Martin", available: true, location: "Shelf A1" },
+      { title: "Python Crash Course", author: "Eric Matthes", available: true, location: "Shelf A2" },
+      { title: "The Pragmatic Programmer", author: "Andrew Hunt", available: false, location: "Shelf B1" },
+      { title: "Operating System Concepts", author: "Silberschatz", available: true, location: "Shelf C3" },
+      { title: "Artificial Intelligence", author: "Stuart Russell", available: true, location: "Shelf D2" },
+      { title: "Data Structures in C", author: "Reema Thareja", available: false, location: "Shelf D4" },
+    ];
+
+    let issuedBooks = [];
+
+    const bookList = document.getElementById("bookList");
+    const searchResult = document.getElementById("searchResult");
+    const issuedBooksList = document.getElementById("issuedBooksList");
+
+    function renderBooks() {
+      bookList.innerHTML = "";
+      books.forEach((book, index) => {
+        bookList.innerHTML += `
+          <div class="book-card glass">
+            <h4>${book.title}</h4>
+            <p><b>Author:</b> ${book.author}</p>
+            <p><b>Available:</b> ${book.available ? "✅ Yes" : "❌ No"}</p>
+            <p><b>Location:</b> ${book.location}</p>
+            <button ${!book.available ? "disabled" : ""} onclick="issueBook(${index})">Issue</button>
+          </div>
+        `;
+      });
+    }
+    renderBooks();
+
+    function updateIssuedBooks() {
+      issuedBooksList.innerHTML = issuedBooks.length
+        ? issuedBooks.map(b => `<li>${b.title} - ${b.author}</li>`).join("")
+        : "<p>No books issued yet.</p>";
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const query = document.getElementById("searchBook").value.toLowerCase().trim();
+      const result = books.find(b => b.title.toLowerCase().includes(query));
+
+      if (result) {
+        searchResult.innerHTML = `
+          <h3>🔎 Search Result:</h3>
+          <p><b>Title:</b> ${result.title}</p>
+          <p><b>Author:</b> ${result.author}</p>
+          <p><b>Availability:</b> ${result.available ? "✅ Available" : "❌ Not Available"}</p>
+          <p><b>Location:</b> ${result.location}</p>
+        `;
+      } else {
+        searchResult.innerHTML = `<p style="color:red;">🚫 No book found with that title.</p>`;
+      }
+    });
+
+    window.issueBook = function(index) {
+      const book = books[index];
+      if (!book.available) {
+        alert("This book is currently unavailable.");
+        return;
+      }
+
+      issuedBooks.push(book);
+      books[index].available = false;
+      renderBooks();
+      updateIssuedBooks();
+
+      alert(`✅ You issued "${book.title}" successfully!`);
+
+      // ✅ Send Email Notification
+      emailjs.send("service_mtbqmil", "service_mtbqmil", {
+        to_email: user.email,
+        user_name: user.name,
+        book_name: book.title,
+      })
+      .then(() => alert("📩 Email notification sent successfully!"))
+      .catch(err => alert("⚠️ Email send failed. Please check EmailJS setup."));
+    };
+
+    document.getElementById("accountBtn").addEventListener("click", () => {
+      const accSection = document.getElementById("accountSection");
+      accSection.style.display = accSection.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("libraryUser");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
